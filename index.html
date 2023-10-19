@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WeiHaiMIPS汇编转机器码</title>
+  <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+  <div class="container">
+    <img 
+      src="https://pic.baike.soso.com/ugc/baikepic2/19600/20180227161041-1231386841_jpg_904_609_72018.jpg/0" 
+      alt="HIT"
+      style="width: 15%;"
+      class="HIT"
+    >
+    <span class="index-title">WeiHaiMIPS汇编转机器码</span>
+    <span class="index-explain" id="explain">点击此处查看使用说明(使用前必读！)</span>
+    <input 
+      type="text" 
+      placeholder="请输入指令，指令的逗号后必须加空格" 
+      id="input"
+      class="index-input"
+      autofocus
+    >
+    <button id="btn-reset" class="btn reset">重置</button>
+    <button id="btn" class="btn change">转换</button>
+    <div class="show-container re1">
+      <span>正确格式示例：add $5, $6, $5</span>
+    </div>
+    <div class="show-container re2">
+      <span class="res-title">指令对应二进制码：</span>
+      <span id="result" class="res-res"></span>
+    </div>
+    <div class="show-container re3">
+      <span class="res-title">指令对应十六进制码：</span>
+      <span id="result16" class="res-res"></span>
+    </div>
+  </div>
+</body>
+<script src="./index.js"></script>
+</html>
