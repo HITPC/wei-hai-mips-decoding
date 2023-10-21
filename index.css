@@ -173,6 +173,7 @@ html, body{
   border-radius: 10px;
   animation: toBot 2s 1 forwards;
   font-weight: 400;
+  z-index: 99;
 }
 
 .copy-success{
