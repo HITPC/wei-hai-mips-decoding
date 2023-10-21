@@ -18,17 +18,17 @@ html, body{
   align-items: center;
 }
 
-.HIT{
+.HIT-img{
   position: absolute;
   left: 50%;
-  top: 10%;
+  top: 10vh;
   transform: translateX(-50%);
 }
 
 .index-title{
   position: absolute;
   left: 50%;
-  top: 32%;
+  top: 32vh;
   transform: translateX(-50%);
   font-size: 28px;
   font-weight: 600;
@@ -50,7 +50,7 @@ html, body{
 .index-explain{
   position: absolute;
   left: 50%;
-  top: 38%;
+  top: 38vh;
   transform: translateX(-50%);
   cursor: pointer;
   font-weight: 600;
@@ -65,7 +65,7 @@ html, body{
 
 .index-input{
   width: 35%;
-  height: 5%;
+  height: 5vh;
   border: 1px solid rgba(0, 0, 0, .2);
   outline: none;
   padding-left: 10px;
@@ -80,7 +80,7 @@ html, body{
 
 .btn{
   width: 8%;
-  height: 5%;
+  height: 5vh;
   border: none;
   cursor: pointer;
   border-radius: 10px;
@@ -108,22 +108,22 @@ html, body{
 .show-container{
   position: absolute;
   width: 80%;
-  height: 10%;
+  height: 10vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .re1{
-  top: 55%;
+  top: 55vh;
 }
 
 .re2{
-  top: 65%;
+  top: 65vh;
 }
 
 .re3{
-  top: 75%;
+  top: 75vh;
 }
 
 .res-title{
@@ -132,5 +132,60 @@ html, body{
 }
 
 .res-res{
+  cursor: pointer;
+}
+
+.res-res:hover{
   text-decoration: underline;
+  color: rgb(88, 178, 252);
+}
+
+.res-res:hover::before{
+  content: "- 提示：点击即可复制";
+  position: absolute;
+  bottom: 0;
+  width: 15%;
+  height: 35%;
+  background-color: transparent;
+  color: #979797;
+}
+
+@keyframes toBot {
+  0%, 100%{
+    top: -10vh;
+    opacity: 0;
+  }
+  20%, 70%{
+    top: 5vh;
+    opacity: 1;
+  }
+}
+
+.copy-basic{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  user-select: none;
+  /* 不要给定宽度，因为内容长度不固定，要它自适应即可，设个padding即可 */
+  padding: 20px;
+  height: 35px;
+  border-radius: 10px;
+  animation: toBot 2s 1 forwards;
+  font-weight: 400;
+}
+
+.copy-success{
+  background-color: rgb(207, 250, 207);
+  color: rgb(54, 128, 54);
+}
+
+.copy-error{
+  background-color: rgb(245, 152, 152);
+  color: rgb(179, 1, 1);
+}
+
+.copy-info{
+  background-color: rgb(197, 197, 197);
+  color: rgb(76, 76, 76);
 }

@@ -1,3 +1,56 @@
+/* 
+  Written By: PiaoChen
+  Time: 2023-06-27
+  Compiler: VSCode
+  Recorder: MixTop
+  Leaved Message: '虽然开源了，但是不要拿着干坏事，也别装成是自己的。★Big brother is watching you★'
+*/
+
+// 下面是封装的消息提示的实现
+class MsgShow {
+  constructor(mainId, time){ // 需要输入最外层容器的id，并确保容器配置了relative，以及CSS动画持续时间
+    this.msgArr = []; // 消息队列，必要的，需要记住大家的id用来删除
+    this.index = 0; // 最简单的方式实现id独一无二，可以用symbol来
+    this.container = document.getElementById(mainId);
+    this.aliveTime = time;
+  }
+
+  addMsg(content, type){// 新建消息，前者为消息内容，后者为消息类型
+    // type默认为info
+    type ? type : type = "info";
+    // 向消息队列中添加元素
+    this.msgArr.push({
+      id: this.index,
+      notShowed: true
+    });
+    ++this.index;
+    // 根据消息队列遍历元素插入container
+    this.msgArr.forEach(item=>{
+      if(item.notShowed){// 只插没展示的
+        item.notShowed = false;
+        const msg = document.createElement('span');
+        msg.classList.add('copy-basic');
+        if(type === 'success' || type === 'error' || type === 'info'){
+          msg.classList.add(`copy-${type}`);
+        }else{
+          throw new Error("Please input correct type!");
+        }
+        msg.setAttribute('id', item.id.toString());
+        msg.innerHTML = content;
+        this.container.appendChild(msg);
+        // 定时然后删掉这个元素
+        setTimeout(()=>{
+          this.container.removeChild(document.getElementById(item.id.toString()));
+          // 也从数组中删掉这个元素
+          // this.msgArr = this.msgArr.filter(i=>i.id!==item.id);// 其实执行的操作就是移掉首位
+          this.msgArr.shift();// 所以这么写更好
+        }, this.aliveTime+20);
+      }
+    });
+  }
+}
+const msg = new MsgShow("container", 2000); // 声明需要放在外面，注意作用域
+
 function binary(number, bit) {
   let binary = (number >>> 0).toString(2);
   while (binary.length < bit) {
@@ -11,11 +64,11 @@ function binary(number, bit) {
 
 
 function dec2bin(decNumber, bit) {
-      if (decNumber < 0) {
-          alert("请输入一个非负整数");
+    if (decNumber < 0) {
+      msg.addMsg("请输入一个非负整数", "error");
     } else {
-        var q = binary(decNumber, bit);
-        return q;
+      var q = binary(decNumber, bit);
+      return q;
     }
 }
 
@@ -35,14 +88,14 @@ let result = document.getElementById("result");
 let result16 = document.getElementById("result16");
 const btnReset = document.getElementById("btn-reset");
 
-function getRes(){
+function getRes(){// 核心逻辑
   result.innerHTML="";
   result16.innerHTML="";
-  let indexArr = input.value.split(" ");
-  if(indexArr.length === 0){
-    alert("input error");
+  if(input.value === ""){
+    msg.addMsg("输入内容不能为空！", "error");
     return;
   }
+  let indexArr = input.value.split(" ");
   let op = indexArr[0];
   let numberArr = [];
   let temp = []
@@ -320,12 +373,12 @@ function getRes(){
       break;
     }
     case "lbu": {
-      alert("这个的处理逻辑没写");
-      break;
+      msg.addMsg("这个的处理逻辑没写", "error");
+      return;
     }
     case "lhu": {
-      alert("这个的处理逻辑没写");
-      break;
+      msg.addMsg("这个的处理逻辑没写", "error");
+      return;
     }
     case "lui": {
       resArr = new Array(4)
@@ -352,8 +405,8 @@ function getRes(){
       break;
     }
     case "lw": {
-      alert("这个的处理逻辑没写");
-      break;
+      msg.addMsg("这个的处理逻辑没写", "error");
+      return;
     }
     case "nor": {
       resArr = new Array(6)
@@ -419,12 +472,12 @@ function getRes(){
       break;
     }
     case "sb": {
-      alert("这个的处理逻辑没写");
-      break;
+      msg.addMsg("这个的处理逻辑没写", "error");
+      return;
     }
     case "sh": {
-      alert("这个的处理逻辑没写");
-      break;
+      msg.addMsg("这个的处理逻辑没写", "error");
+      return;
     }
     case "sll": {
       resArr = new Array(6)
@@ -653,7 +706,7 @@ function getRes(){
       break;
     }
     case "sw":{
-      alert("这个的处理逻辑没写");
+      msg.addMsg("这个的处理逻辑没写", "error");
       return;
     }
     case "xor": {
@@ -700,7 +753,7 @@ function getRes(){
       break;
     }
     default: {
-      alert("可能写错指令了，或者我没支持上...");
+      msg.addMsg("可能写错指令了，或者这个指令我没写逻辑...", "error");
       return;
     }  
   }
@@ -717,26 +770,63 @@ function getRes(){
     str = t + str;
   }
   result16.innerHTML = str.toUpperCase();
+  msg.addMsg("转换成功！", "success");
 }
 
+// 转换得答案
 btn.addEventListener("click", getRes);
 // let s = "add $5, $6, $5";
 
+// 使用须知
 const explain = document.getElementById("explain");
-
-explain.addEventListener('click', ()=>{
+explain.addEventListener('click', ()=>{ // 懒得写弹窗了
   alert(`
-  使用须知：
-  **重要：请一定要确保转换前输入的指令格式是对的，指令格式要求必须要英文逗号并且逗号后面打一个空格，并且末尾不需要加任何东西！并且，本网页并没有实现全部的指令，有部分指令如lbu，sw，sh，sb，lw，lhu等没有写（因为老学长当年选的项目没用到这几个指令）。
-  **注意，如果指令是对的但是格式错误/部分使用方式错误情况，结果会出现undefined，但是如果是使用方式错了，本页面没有细致检查使用方式正确与否的功能，所以会正常译码，此时结果会看着没问题（但是这个就会出大问题了）
-  关于本网页：本网页是老学长自己写来自己用的，本着互帮互助的心态分享给大家。
-  本网页汇编命令转到机器码没有任何问题，已经经过了老学长亲自使用测试了，拿下了计组课设95+。
-  最后：加油各位！实在不会就什么chatGPT，New Bing，文心一言用起来啊！嘎嘎好用啊家人们！
-`);
+    使用须知：
+    ⚠ 重要：请一定要确保转换前输入的指令格式是对的，指令格式要求必须要英文逗号并且逗号后面打一个空格，并且末尾不需要加任何东西！并且，本网页并没有实现全部的指令，有部分指令如lbu，sw，sh，sb，lw，lhu等没有写（因为老学长当年选的项目没用到这几个指令）。
+    ⚠ 注意，如果指令是对的但是格式错误/部分使用方式错误情况，结果会出现undefined，但是如果是使用方式错了，本页面没有细致检查使用方式正确与否的功能，所以会正常译码，此时结果会看着没问题（但是这个就会出大问题了）
+    关于本网页：本网页是老学长自己写来自己用的（纯原生写的~），本着互帮互助的心态分享给大家。
+    本网页汇编命令转到机器码没有任何问题，已经经过了老学长亲自使用测试了，拿下了计组课设95+。
+    最后：加油各位！实在不会就什么chatGPT，New Bing，文心一言用起来啊！嘎嘎好用啊家人们！要是觉得好用的话不要忘了进老学长的仓库里给个star😁。
+  `);
 });
 
+// 重置功能
 btnReset.addEventListener('click', ()=>{
   input.value = ""; 
   result.innerHTML=""; 
   result16.innerHTML="";
+  msg.addMsg("重置成功！", "info");
+});
+
+// 点击复制
+const copyItems = document.querySelectorAll(".res-res");
+function doCopy(item) {
+  return async () => {
+    try {
+      const text = item.textContent;
+      await navigator.clipboard.writeText(text); // 实现复制到粘贴板
+      msg.addMsg('复制成功', 'success');
+    } catch (err) {
+      msg.addMsg('复制出现问题了！请重试', 'error');
+      console.error(err);
+    }
+  };
+}
+copyItems.forEach((item) => {// 绑上
+  item.addEventListener("click", doCopy(item));
+});
+
+// 右键粘贴
+input.addEventListener('contextmenu', (e) => {
+  e.preventDefault(); // 阻止右键菜单
+  navigator.clipboard.readText()
+    .then(text => {
+        input.value = text;
+        msg.addMsg("粘贴成功！", "success");
+    })
+    .catch(err => {
+      msg.addMsg("访问粘贴板出错！", "error");
+      console.log(err);
+      return;
+    });
 });

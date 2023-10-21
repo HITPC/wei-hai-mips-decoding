@@ -7,18 +7,18 @@
   <link rel="stylesheet" href="./index.css">
 </head>
 <body>
-  <div class="container">
+  <div class="container" id="container">
     <img 
       src="https://pic.baike.soso.com/ugc/baikepic2/19600/20180227161041-1231386841_jpg_904_609_72018.jpg/0" 
-      alt="HIT"
+      alt="HIT校徽"
       style="width: 15%;"
-      class="HIT"
+      class="HIT-img"
     >
-    <span class="index-title">WeiHaiMIPS汇编转机器码</span>
+    <span class="index-title">WeiHaiMIPS汇编转机器码 - By PC</span>
     <span class="index-explain" id="explain">点击此处查看使用说明(使用前必读！)</span>
     <input 
       type="text" 
-      placeholder="请输入指令，指令的逗号后必须加空格" 
+      placeholder="请输入指令，指令的逗号后必须加空格。鼠标放上点右键即可粘贴。" 
       id="input"
       class="index-input"
       autofocus
@@ -26,7 +26,8 @@
     <button id="btn-reset" class="btn reset">重置</button>
     <button id="btn" class="btn change">转换</button>
     <div class="show-container re1">
-      <span>正确格式示例：add $5, $6, $5</span>
+      <span style="user-select: none; font-weight: 600;">正确格式示例：</span>
+      <span class="res-res">add $5, $6, $5</span>
     </div>
     <div class="show-container re2">
       <span class="res-title">指令对应二进制码：</span>
