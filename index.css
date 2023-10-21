@@ -141,7 +141,7 @@ html, body{
 }
 
 .res-res:hover::before{
-  content: "- 提示：点击即可复制";
+  content: "提示：点击即可复制";
   position: absolute;
   bottom: 0;
   width: 15%;
