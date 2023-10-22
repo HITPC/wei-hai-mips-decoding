@@ -8,47 +8,38 @@
 
 // 下面是封装的消息提示的实现
 class MsgShow {
-  constructor(mainId, time){ // 需要输入最外层容器的id，并确保容器配置了relative，以及CSS动画持续时间
-    this.msgArr = []; // 消息队列，必要的，需要记住大家的id用来删除
-    this.index = 0; // 最简单的方式实现id独一无二，可以用symbol来
+  constructor(mainId, time){
+    this.msgQueue = []; // 使用队列来存储消息
+    this.index = 0;
     this.container = document.getElementById(mainId);
     this.aliveTime = time;
   }
 
-  addMsg(content, type){// 新建消息，前者为消息内容，后者为消息类型
-    // type默认为info
-    type ? type : type = "info";
-    // 向消息队列中添加元素
-    this.msgArr.push({
+  addMsg(content, type){
+    type = type || "info"; // 设置默认值
+    const msg = {
       id: this.index,
-      notShowed: true
-    });
+      content,
+      type
+    };
+    this.msgQueue.push(msg); // 将消息添加到队列中
     ++this.index;
-    // 根据消息队列遍历元素插入container
-    this.msgArr.forEach(item=>{
-      if(item.notShowed){// 只插没展示的
-        item.notShowed = false;
-        const msg = document.createElement('span');
-        msg.classList.add('copy-basic');
-        if(type === 'success' || type === 'error' || type === 'info'){
-          msg.classList.add(`copy-${type}`);
-        }else{
-          throw new Error("Please input correct type!");
-        }
-        msg.setAttribute('id', item.id.toString());
-        msg.innerHTML = content;
-        this.container.appendChild(msg);
-        // 定时然后删掉这个元素
-        setTimeout(()=>{
-          this.container.removeChild(document.getElementById(item.id.toString()));
-          // 也从数组中删掉这个元素
-          // this.msgArr = this.msgArr.filter(i=>i.id!==item.id);// 其实执行的操作就是移掉首位
-          this.msgArr.shift();// 所以这么写更好
-        }, this.aliveTime+20);
-      }
-    });
+    this.displayMsg(msg); // 显示新添加的消息
+  }
+
+  displayMsg(msg){
+    const span = document.createElement('span');
+    span.classList.add('copy-basic', `copy-${msg.type}`);
+    span.setAttribute('id', msg.id.toString());
+    span.innerHTML = msg.content;
+    this.container.appendChild(span);
+    setTimeout(() => {
+      this.container.removeChild(document.getElementById(msg.id.toString()));
+      this.msgQueue.shift(); // 从队列中删除消息
+    }, this.aliveTime+20);
   }
 }
+
 const msg = new MsgShow("container", 2000); // 声明需要放在外面，注意作用域
 
 function binary(number, bit) {
