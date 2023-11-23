@@ -30,7 +30,7 @@ html, body{
   left: 50%;
   top: 32vh;
   transform: translateX(-50%);
-  font-size: 28px;
+  font-size: max(2vw, 1.2rem);
   font-weight: 600;
   user-select: none;
 }
@@ -54,7 +54,7 @@ html, body{
   transform: translateX(-50%);
   cursor: pointer;
   font-weight: 600;
-  font-size: 18px;
+  font-size: max(1.2vw, 1rem);
   color: rgb(255, 71, 71);
   animation: ca .3s linear 5 forwards;
 }
@@ -70,7 +70,7 @@ html, body{
   outline: none;
   padding-left: 10px;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: max(0.9vw, 0.5rem);
   transition: all .2s;
 }
 
@@ -86,16 +86,16 @@ html, body{
   border-radius: 10px;
   margin-left: 1%;
   font-weight: 600;
-  font-size: 16px;
+  font-size: max(1vw, 0.6rem);
   transition: all .2s;
 }
 
 .btn:hover{
-  opacity: .8;
+  opacity: .6;
 }
 
 .change{
-  background-color: rgb(107, 188, 255);
+  background-color: rgb(51, 163, 254);
   color: #fff;
 }
 
@@ -126,6 +126,10 @@ html, body{
   top: 75vh;
 }
 
+.re4{
+  top: 85vh;
+}
+
 .res-title{
   font-weight: 600;
   font-size: 16px;
@@ -149,6 +153,8 @@ html, body{
   background-color: transparent;
   color: #979797;
 }
+
+
 
 @keyframes toBot {
   0%, 100%{
@@ -182,8 +188,8 @@ html, body{
 }
 
 .copy-error{
-  background-color: rgb(245, 152, 152);
-  color: rgb(179, 1, 1);
+  background-color: rgb(254, 175, 175);
+  color: rgb(103, 0, 0);
 }
 
 .copy-info{
